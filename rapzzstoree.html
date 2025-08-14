@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rapzz store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4a00e0;
+            --secondary: #8e2de2;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f5f5;
+            --gray: #2d2d2d;
+            --accent: #00c9ff;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(18, 18, 18, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(74, 0, 224, 0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+
+        .menu-btn {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: var(--gray);
+            min-width: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-content.show {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(74, 0, 224, 0.3);
+            padding-left: 1.8rem;
+        }
+
+        .dropdown-content a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Welcome Section */
+        .welcome {
+            text-align: center;
+            padding: 3rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .welcome h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .welcome p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #ccc;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(45, 45, 45, 0.6);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(74, 0, 224, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(74, 0, 224, 0.5);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Product Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: rgba(45, 45, 45, 0.6);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(74, 0, 224, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .product-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .product-card .price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: var(--accent);
+        }
+
+        .product-card .description {
+            margin-bottom: 1.5rem;
+            color: #ccc;
+            flex-grow: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(142, 45, 226, 0.4);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* Payment Section */
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .qris-container {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(45, 45, 45, 0.6);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(74, 0, 224, 0.2);
+        }
+
+        .qris-container h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .qris-placeholder {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, var(--darker), var(--gray));
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .qris-placeholder:hover {
+            transform: scale(1.05);
+        }
+
+        .payment-list {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .payment-item {
+            background: rgba(45, 45, 45, 0.6);
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(74, 0, 224, 0.2);
+        }
+
+        .payment-info {
+            flex-grow: 1;
+        }
+
+        .payment-info h4 {
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+
+        .copy-btn {
+            background: rgba(74, 0, 224, 0.2);
+            color: var(--light);
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(74, 0, 224, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gray);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* QRIS Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--gray);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 8px;
+        }
+
+        .close-modal {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .welcome h2 {
+                font-size: 2rem;
+            }
+            
+            .payment-methods {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-card, .product-card {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-server"></i>
+            <h1>rapzz store</h1>
+        </div>
+        
+        <div class="dropdown">
+            <button class="menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="dropdown-content" id="dropdownMenu">
+                <a href="#" data-section="mainMenu"><i class="fas fa-home"></i> Menu Utama</a>
+                <a href="#" data-section="product"><i class="fas fa-box-open"></i> Produk</a>
+                <a href="#" data-section="payment"><i class="fas fa-credit-card"></i> Payment</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Main Menu Section -->
+        <section id="mainMenu" class="section active">
+            <div class="welcome">
+                <h2>Selamat Datang di Website rapzz store</h2>
+                <p>rapzz store menyediakan all kebutuhan hosting seperti panel pterodactyl, script bug, murban, dll dan pasti nya berkualita</p>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Performa Tinggi</h3>
+                        <p>Server dengan spesifikasi terbaik untuk kecepatan maksimal</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Keamanan Terjamin</h3>
+                        <p>Proteksi DDoS dan firewall canggih untuk website Anda</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-headset"></i>
+                        <h3>Support 24/7</h3>
+                        <p>Tim support siap membantu kapan saja Anda membutuhkan</p>
+                    </div>
+                    <div class="features">
+                    <div class="feature-card">
+                        <i class="fas fa-headset"></i>
+<h3>About rapzz</h3>
+<p>Code. Create. Build the future, one line at a time. JavaScript mastery, HTML expertise. Where code meets creativity. Transforming ideas into digital reality.</p>
+<p>[ Telegram: t.me/rapzzXyz ]</p>
+<p>[ Channel: t.me/TheExtan ]</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Product Section -->
+        <section id="product" class="section">
+            <h2><i class="fas fa-box-open"></i> Daftar Produk</h2>
+            <p>beli produk, dengan click button hubungi admin</p>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <h3>Panel 1GB</h3>
+                    <div class="description">Paket hosting dasar untuk website sederhana</div>
+                    <div class="price">Rp 2.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Panel 2GB</h3>
+                    <div class="description">Paket hosting untuk website dengan traffic sedang</div>
+                    <div class="price">Rp 3.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Panel 3GB</h3>
+                    <div class="description">Paket hosting untuk website dengan kebutuhan lebih</div>
+                    <div class="price">Rp 4.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Panel 4GB</h3>
+                    <div class="description">Paket hosting untuk website dengan kebutuhan lebih</div>
+                    <div class="price">Rp 5.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Panel 5GB</h3>
+                    <div class="description">Paket hosting untuk website dengan traffic tinggi</div>
+                    <div class="price">Rp 6.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Panel 6GB</h3>
+                    <div class="description">Paket hosting untuk website dengan traffic tinggi</div>
+                    <div class="price">Rp 7.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Panel Unli</h3>
+                    <div class="description">Paket hosting dengan sumber daya tidak terbatas</div>
+                    <div class="price">Rp 10.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Reseller Panel</h3>
+                    <div class="description">Paket khusus untuk reseller hosting</div>
+                    <div class="price">Rp 12.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Admin Panel</h3>
+                    <div class="description">Akses penuh untuk mengelola hosting</div>
+                    <div class="price">Rp 15.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Partner Panel</h3>
+                    <div class="description">Paket khusus untuk partner bisnis</div>
+                    <div class="price">Rp 20.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <h3>Owner Panel</h3>
+                    <div class="description">Paket hosting dengan fitur eksklusif</div>
+                    <div class="price">Rp 35.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                                <div class="product-card">
+                    <h3>Nokos Whatsapp</h3>
+                    <div class="description">
+Nokos Instan, Langsung Jalan.
+Nomor Siap Pakai!
+Nokos Cepat, Chat Tepat.
+Langsung Aktif, Tanpa Ribet.
+Nomor Baru, Sekejap Jadi. </div>
+                    <div class="price">Rp 10.000</div>
+                    <a href="https://t.me/XyzInoOfficial" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+                
+                                <div class="product-card">
+                    <h3>Jasa Pembuatan Website</h3>
+                    <div class="description">Pembuatan Website Store,Aboutme,TopUp Atau yang lainnya</div>
+                    <div class="price">Rp 35.000-85.000</div>
+                    <a href="https://t.me/rapzzXyz" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Payment Section -->
+        <section id="payment" class="section">
+            <h2><i class="fas fa-credit-card"></i> Metode Pembayaran</h2>
+            <p>Pilih metode pembayaran yang paling nyaman untuk Anda</p>
+            
+            <div class="payment-methods">
+                <div class="qris-container">
+                    <h3>QRIS</h3>
+                    <div class="qris-placeholder" id="qrisPlaceholder">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <p style="margin-top: 1.5rem;">Scan QRIS untuk pembayaran cepat dan mudah</p>
+                </div>
+                
+                <div class="payment-list">
+                    <h3 style="margin-bottom: 1rem;">Dompet Digital</h3>
+                    
+                    <div class="payment-item">
+                        <div class="payment-info">
+                            <h4>GOPAY</h4>
+                            <p>082151019801 (Nama: rapzzxyztore)</p>
+                        </div>
+                        <button class="copy-btn" data-number="082151019801">Salin</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2020-2025 rapzz store Semua Hak Dilindungi.</p>
+        <p>Layanan hosting profesional dengan performa terbaik dan dukungan 24/7</p>
+    </footer>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Nomor berhasil disalin!</div>
+    
+    <!-- QRIS Modal -->
+    <div class="modal" id="qrisModal">
+        <div class="modal-content">
+            <img src="https://files.catbox.moe/ffx5j6.jpg" alt="QRIS Payment">
+            <button class="close-modal" id="closeModal">Tutup</button>
+        </div>
+    </div>
+    
+    <script>
+        // Toggle dropdown menu
+        const menuBtn = document.getElementById('menuBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        
+        menuBtn.addEventListener('click', function() {
+            dropdownMenu.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!menuBtn.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+        
+        // Switch sections
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.dropdown-content a');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Hide dropdown
+                dropdownMenu.classList.remove('show');
+                
+                // Get target section
+                const targetSection = this.getAttribute('data-section');
+                
+                // Hide all sections
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show target section
+                document.getElementById(targetSection).classList.add('active');
+            });
+        });
+        
+        // Copy to clipboard function
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        const toast = document.getElementById('toast');
+        
+        copyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const number = this.getAttribute('data-number');
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(number).then(() => {
+                    // Show toast notification
+                    toast.classList.add('show');
+                    
+                    // Hide toast after 3 seconds
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
+                });
+            });
+        });
+        
+        // QRIS Modal functionality
+        const qrisPlaceholder = document.getElementById('qrisPlaceholder');
+        const qrisModal = document.getElementById('qrisModal');
+        const closeModal = document.getElementById('closeModal');
+        
+        qrisPlaceholder.addEventListener('click', function() {
+            qrisModal.classList.add('show');
+        });
+        
+        closeModal.addEventListener('click', function() {
+            qrisModal.classList.remove('show');
+        });
+        
+        // Close modal when clicking outside
+        qrisModal.addEventListener('click', function(e) {
+            if (e.target === qrisModal) {
+                qrisModal.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
